@@ -2,8 +2,8 @@ package me.estudos.githubrepositories.ui
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import me.estudos.githubrepositories.R
 import me.estudos.githubrepositories.core.createDialog
 import me.estudos.githubrepositories.core.createProgressDialog
@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         menuInflater.inflate(R.menu.main_menu, menu)
         val searchView = menu.findItem(R.id.action_search).actionView as SearchView
         searchView.setOnQueryTextListener(this)
+        searchView.maxWidth = Integer.MAX_VALUE
         return super.onCreateOptionsMenu(menu)
     }
 
