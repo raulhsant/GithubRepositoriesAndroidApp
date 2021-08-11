@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubRepositories"
         tools:ignore="AllowBackup">
+        <activity android:name=".ui.GithubRepoPageActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

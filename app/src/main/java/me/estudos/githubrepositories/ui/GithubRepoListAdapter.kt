@@ -6,14 +6,38 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import me.estudos.githubrepositories.core.ClickItemGithubRepoListener
 import me.estudos.githubrepositories.data.model.GithubRepo
 import me.estudos.githubrepositories.databinding.ItemRepositoryBinding
 
-class GithubRepoListAdapter :
+class GithubRepoListAdapter(private var listener: ClickItemGithubRepoListener) :
     ListAdapter<GithubRepo, GithubRepoListAdapter.ViewHolder>(DiffCallback()) {
 
-    inner class ViewHolder(private val binding: ItemRepositoryBinding) :
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemRepositoryBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ViewHolder(binding, listener)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+
+    inner class ViewHolder(
+        private val binding: ItemRepositoryBinding,
+        private var listener: ClickItemGithubRepoListener
+    ) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                listener.clickItemGithubRepo(getItem(adapterPosition))
+            }
+        }
 
         fun bind(item: GithubRepo) {
             binding.tvRepositoryName.text = item.name
@@ -25,19 +49,6 @@ class GithubRepoListAdapter :
                 .load(item.owner.avatarURL)
                 .into(binding.ivOwner)
         }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemRepositoryBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return ViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
     }
 }
 
